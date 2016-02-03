@@ -23,7 +23,7 @@ import java.util.concurrent.ExecutionException;
  */
 public class RevoWebSocket {
     private WebSocketHttpHeaders headers;
-    private String stompUrl;
+    private String URL;
     public ListenableFuture<StompSession> stompSession;
     private WebSocketStompClient stompClient;
 
@@ -32,14 +32,14 @@ public class RevoWebSocket {
         StandardWebSocketClient standardWebSocketClient = new StandardWebSocketClient();
         transports.add(new WebSocketTransport(standardWebSocketClient));
         SockJsClient sockJsClient = new SockJsClient(transports);
-        this.stompUrl = "ws://" + URL;
+        this.URL = URL;
         this.stompClient = new WebSocketStompClient(sockJsClient);
         stompClient.setMessageConverter(new MappingJackson2MessageConverter());
         this.headers = new WebSocketHttpHeaders(getHttpHeaders(email, password));
     }
 
     public ListenableFuture<StompSession> Connect() {
-        stompSession = stompClient.connect(stompUrl, headers, new StompSessionHandlerAdapter() {
+        stompSession = stompClient.connect(URL, headers, new StompSessionHandlerAdapter() {
         });
         return stompSession;
     }

@@ -9,14 +9,14 @@ import org.revo.RevoWebSocket;
 public class RevoWebSocketTest {
     @Test
     public void testsend() throws Exception {
-        RevoWebSocket revoWebSocket = new RevoWebSocket("localhost:8080/hello", "revo", "revo");
+        RevoWebSocket revoWebSocket = new RevoWebSocket("wss://springwebsocketclient.herokuapp.com/hello", "revo", "revo");
         revoWebSocket.Connect();
         if (revoWebSocket.isConnected()) {
             revoWebSocket.subscribe("/user/topic/greetings", new RevoStompHandler<>(Message.class, m ->
                     System.out.println(m.getContent())
             ));
             revoWebSocket.send("/app/hello", new Message("lovex"));
-            Thread.sleep(100);
+            Thread.sleep(1000);
         }
     }
 }
