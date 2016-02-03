@@ -6,7 +6,7 @@
 
     <groupId>org.revo</groupId>
     <artifactId>RevoWebSocket</artifactId>
-    <version>0.1.RELEASE</version>
+    <version>0.2.RELEASE</version>
 
     <dependencies>
         <dependency>
