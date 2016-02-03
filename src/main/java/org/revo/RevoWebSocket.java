@@ -28,7 +28,7 @@ public class RevoWebSocket {
     private WebSocketStompClient stompClient;
 
     public RevoWebSocket(String URL, String email, String password) {
-        List<Transport> transports = new ArrayList<>();
+        List<Transport> transports = new ArrayList<Transport>();
         StandardWebSocketClient standardWebSocketClient = new StandardWebSocketClient();
         transports.add(new WebSocketTransport(standardWebSocketClient));
         SockJsClient sockJsClient = new SockJsClient(transports);
@@ -47,8 +47,11 @@ public class RevoWebSocket {
     public boolean isConnected() {
         try {
             return stompSession.get().isConnected();
-        } catch (InterruptedException | ExecutionException e) {
+        } catch (InterruptedException e) {
+
+        } catch (ExecutionException e) {
         }
+
         return false;
     }
 
@@ -60,13 +63,11 @@ public class RevoWebSocket {
         return httpHeaders;
     }
 
-    public void send(String path, Message payload) {
+    public void send(final String path, final Message payload) {
         stompSession.addCallback(new ListenableFutureCallback<StompSession>() {
-            @Override
             public void onFailure(Throwable ex) {
             }
 
-            @Override
             public void onSuccess(StompSession result) {
                 result.send(path, payload);
             }
@@ -74,11 +75,14 @@ public class RevoWebSocket {
     }
 
     public void subscribe(String path, RevoStompHandler<Message> handlerAdapter) throws SessionException {
-        if (stompSession.isDone()) {
+        if (isConnected()) {
             try {
                 stompSession.get().subscribe(path, handlerAdapter);
-            } catch (InterruptedException | ExecutionException ignored) {
+            } catch (InterruptedException e) {
+
+            } catch (ExecutionException e) {
             }
+
         } else throw new SessionException("Not connected ");
     }
 }

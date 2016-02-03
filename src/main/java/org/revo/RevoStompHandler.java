@@ -18,12 +18,10 @@ public class RevoStompHandler<T> implements StompFrameHandler {
         this.consumer = consumer;
     }
 
-    @Override
     public Type getPayloadType(StompHeaders headers) {
         return aClass;
     }
 
-    @Override
     public void handleFrame(StompHeaders headers, Object payload) {
         consumer.accept((T) payload);
     }
